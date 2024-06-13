@@ -1,0 +1,36 @@
+services:
+  llm-download-service:
+    build:
+      context: ./llm-download-service
+    ports:
+      - "8001:8001"
+  
+  backend-api-service:
+    build:
+      context: ./backend-api-service
+    ports:
+      - "5000:5000"
+  
+  frontend-web-app:
+    build:
+      context: ./frontend-web-app
+    ports:
+      - "3000:3000"
+  
+  ai-alignment-testing-bot:
+    build:
+      context: ./ai-alignment-testing-bot
+    ports:
+      - "8002:8002"
+  
+  alignment-bot-service:
+    build:
+      context: ./alignment-bot-service
+    ports:
+      - "8003:8003"
+
+  ai-machine-builder-plugin:
+    build:
+      context: ./ai-machine-builder-plugin
+    ports:
+      - "8004:8004" 
