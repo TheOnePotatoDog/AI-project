@@ -1,6 +1,0 @@
-flask
-google-cloud-storage
-neo4j
-stripe
-requests
-# Add any other dependencies here
