@@ -1,25 +1,30 @@
 import discord
 import openai
+import os
+from dotenv import load_dotenv
 
-intents = discord.Intents.default()
-intents.message_content = True
-
-# Discord and Openai
-DISCORD_TOKEN = "INSERT_YOUR_DISCORD_TOKEN_HERE"
-openai.api_key = "INSERT_YOUR_OPENAI_KEY_HERE"
+# Load environment variables from .env file
+load_dotenv()
+DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 # Initialize a client object for Discord bot
+intents = discord.Intents.default()
+intents.message_content = True
 client = discord.Client(intents=intents)
 
+# Set OpenAI API key
+openai.api_key = OPENAI_API_KEY
+
 # Function that sends message to OpenAI API and gets response
-async def ask_gpt(message):
+async def ask_gpt(message_content):
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4-turbo",
         messages=[
-            {"role": "user", "content": message.content}
+            {"role": "user", "content": message_content}
         ]
     )
-    answer = response.choices[0].message.content
+    answer = response.choices[0].message['content']
     return answer
 
 # Listener that checks for messages in Discord
@@ -28,8 +33,9 @@ async def on_message(message):
     # Ignore messages from the bot itself
     if message.author == client.user:
         return
+
     # Sends message to OpenAI API
-    response = await ask_gpt(message)
+    response = await ask_gpt(message.content)
     # Sends response back to channel
     await message.channel.send(response)
 
