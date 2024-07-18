@@ -16,7 +16,7 @@ client = discord.Client(intents=intents)
 # Set OpenAI API key
 openai.api_key = OPENAI_API_KEY
 
-# Function that sends message to OpenAI API and gets response
+# Function that sends a message to the OpenAI API and gets a response
 async def ask_gpt(message_content):
     response = openai.ChatCompletion.create(
         model="gpt-4-turbo",
@@ -38,6 +38,11 @@ async def on_message(message):
     response = await ask_gpt(message.content)
     # Sends response back to channel
     await message.channel.send(response)
+
+# Event listener for when the bot is ready
+@client.event
+async def on_ready():
+    print(f'Bot connected as {client.user}')
 
 # Start the bot
 client.run(DISCORD_TOKEN)
