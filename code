@@ -6,10 +6,6 @@ import os
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-# Debug prints to verify environment variables
-print(f"DISCORD_TOKEN: {DISCORD_TOKEN}")
-print(f"OPENAI_API_KEY: {OPENAI_API_KEY}")
-
 # Ensure that environment variables are loaded correctly
 if DISCORD_TOKEN is None:
     raise ValueError("DISCORD_TOKEN is not set. Please check your GitHub Secrets.")
