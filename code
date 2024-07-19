@@ -1,16 +1,24 @@
 import discord
 import openai
 import os
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from GitHub Secrets
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-# Initialize a client object for Discord bot
+# Debug prints to verify environment variables
+print(f"DISCORD_TOKEN: {DISCORD_TOKEN}")
+print(f"OPENAI_API_KEY: {OPENAI_API_KEY}")
+
+# Ensure that environment variables are loaded correctly
+if DISCORD_TOKEN is None:
+    raise ValueError("DISCORD_TOKEN is not set. Please check your GitHub Secrets.")
+if OPENAI_API_KEY is None:
+    raise ValueError("OPENAI_API_KEY is not set. Please check your GitHub Secrets.")
+
+# Initialize a client object for Discord bot with the required intents
 intents = discord.Intents.default()
-intents.message_content = True
+intents.message_content = True  # Enable message content intent
 client = discord.Client(intents=intents)
 
 # Set OpenAI API key
@@ -46,3 +54,4 @@ async def on_ready():
 
 # Start the bot
 client.run(DISCORD_TOKEN)
+
