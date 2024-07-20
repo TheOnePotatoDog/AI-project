@@ -1,22 +1,26 @@
 import discord
 import openai
 import os
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from GitHub Secrets
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-# Initialize a client object for Discord bot
+# Ensure that environment variables are loaded correctly
+if DISCORD_TOKEN is None:
+    raise ValueError("DISCORD_TOKEN is not set. Please check your GitHub Secrets.")
+if OPENAI_API_KEY is None:
+    raise ValueError("OPENAI_API_KEY is not set. Please check your GitHub Secrets.")
+
+# Initialize a client object for Discord bot with the required intents
 intents = discord.Intents.default()
-intents.message_content = True
+intents.message_content = True  # Enable message content intent
 client = discord.Client(intents=intents)
 
 # Set OpenAI API key
 openai.api_key = OPENAI_API_KEY
 
-# Function that sends message to OpenAI API and gets response
+# Function that sends a message to the OpenAI API and gets a response
 async def ask_gpt(message_content):
     response = openai.ChatCompletion.create(
         model="gpt-4-turbo",
@@ -39,5 +43,11 @@ async def on_message(message):
     # Sends response back to channel
     await message.channel.send(response)
 
+# Event listener for when the bot is ready
+@client.event
+async def on_ready():
+    print(f'Bot connected as {client.user}')
+
 # Start the bot
 client.run(DISCORD_TOKEN)
+
