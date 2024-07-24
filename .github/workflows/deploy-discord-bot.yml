@@ -23,15 +23,13 @@ jobs:
         source venv/bin/activate
         pip install -r requirements.txt
 
-    - name: Debug Environment Variables
+    - name: Debug Secrets
       run: |
         echo "DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }}"
         echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}"
+        echo "Secrets are set"
 
     - name: Run bot
-      env:
-        DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         source venv/bin/activate
-        python code
+        DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }} OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} python code.py  # Ensure this matches your entry point script
