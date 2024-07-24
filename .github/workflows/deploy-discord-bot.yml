@@ -30,6 +30,9 @@ jobs:
         echo "Secrets are set"
 
     - name: Run bot
+      env:
+        DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         source venv/bin/activate
-        DISCORD_TOKEN=${{ secrets.DISCORD_TOKEN }} OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} python code.py  # Ensure this matches your entry point script
+        python code.py
