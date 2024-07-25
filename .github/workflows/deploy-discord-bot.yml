@@ -37,10 +37,11 @@ jobs:
         DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
-    - name: Run bot
+    - name: Run bot in the background
       env:
         DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         source venv/bin/activate
-        python code.py
+        nohup python code.py &
+        echo "Bot is running in the background"
